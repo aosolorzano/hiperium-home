@@ -1,0 +1,208 @@
+	<?xml version="1.0" encoding="UTF-8"?>
+<!--DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER. Hiperium Corp. 
+	Corp. Product: Hiperium<description>Hiperium Project for Smart Homes</description> 
+	Created: 13-Ago-2015 - 00:00:00 The contents of this file are copyrighted 
+	by OssTown Corp. and it is protected by the license: "GPL V3." You can find 
+	a copy of this license at: http://www.hiperium.com/hiperium/licence.html 
+	Copyright 2015. All rights reserved. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>hiperium-home</artifactId>
+	<groupId>com.hiperium</groupId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>Hiperium Home client API</name>
+	<description>Raspberry Project to connect with the Hiperium Cloud Services.</description>
+
+	<url>http://www.hiperium.com</url>
+
+	<licenses>
+		<license>
+			<name>GNU General Public License, Version 3</name>
+			<distribution>repo</distribution>
+			<url>http://www.gnu.org/copyleft/gpl.html</url>
+		</license>
+	</licenses>
+
+	<organization>
+		<name>Hiperium Corporation</name>
+		<url>http://www.hiperium.com</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>asolorzano</id>
+			<name>Andres Solorzano</name>
+			<email>andres.solorzano@hiperium.com</email>
+			<organization>Hiperium Corporation</organization>
+			<roles>
+				<role>Hiperium Project Architect</role>
+			</roles>
+			<timezone>-5</timezone>
+		</developer>
+	</developers>
+
+	<repositories>
+		<repository>
+			<id>hiperium</id>
+			<name>Hiperium Project Public Repository</name>
+			<url>http://repository-hiperium.rhcloud.com/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>hiperium</id>
+			<name>Hiperium Project Public Repository</name>
+			<url>http://repository-hiperium.rhcloud.com/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<!-- Deploy the project in the follow Nexus Private Repository. -->
+	<distributionManagement>
+		<repository>
+			<id>hiperium</id>
+			<name>Hiperium Releases</name>
+			<url>http://repository-hiperium.rhcloud.com/content/repositories/hiperium-releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>hiperium</id>
+			<name>Hiperium Snapshots</name>
+			<url>http://repository-hiperium.rhcloud.com/content/repositories/hiperium-snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<dependencies>
+		<!-- JBoss Client API provided in JBoss AS 7 -->
+		<dependency>
+			<groupId>org.jboss.client</groupId>
+			<artifactId>jboss-client</artifactId>
+			<version>7.1.1.Final</version>
+		</dependency>
+		<!-- XBEE API -->
+		<dependency>
+			<groupId>com.rapplogic</groupId>
+			<artifactId>xbee-api</artifactId>
+			<version>0.9</version>
+		</dependency>
+		<!-- GNU IO API -->
+		<dependency>
+			<groupId>org.rxtx</groupId>
+			<artifactId>rxtx</artifactId>
+			<version>2.1.7</version>
+		</dependency>
+		<!-- APACHE HTTP CLIENTS -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5</version>
+		</dependency>
+		<!-- GSON: To manage JSON objects. -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<!-- APACHE COMMONS -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<!-- APACHE LOG4J -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
+		<!-- JUNIT API -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>com.hiperium.home.main.MainClass</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- CHECKSTYLE -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.13</version>
+				<configuration>
+					<configLocation>/etc/CheckStyle-Hiperium.xml</configLocation>
+				</configuration>
+			</plugin>
+			<!-- PMD -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.2</version>
+				<configuration>
+					<targetJdk>1.8</targetJdk>
+					<rulesets>
+						<ruleset>/etc/PMD-Hiperium.xml</ruleset>
+					</rulesets>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
