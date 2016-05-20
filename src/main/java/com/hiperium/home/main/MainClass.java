@@ -20,12 +20,12 @@ import java.util.Properties;
 import javax.jms.JMSException;
 import javax.naming.Context;
 
+import com.hiperium.commons.client.dto.DeviceDTO;
+import com.hiperium.commons.client.dto.HomeCredentialDTO;
+import com.hiperium.commons.client.dto.HomeResponseDTO;
+import com.hiperium.commons.client.exception.InformationException;
+import com.hiperium.commons.client.gson.GsonConverterUtil;
 import com.hiperium.home.common.EnumDeviceClass;
-import com.hiperium.home.dto.DeviceDTO;
-import com.hiperium.home.dto.HomeAuthResponseDTO;
-import com.hiperium.home.dto.HomeCredentialDTO;
-import com.hiperium.home.exception.InformationException;
-import com.hiperium.home.gson.GsonConverterUtil;
 import com.hiperium.home.listener.DeviceDataListener;
 import com.hiperium.home.listener.DeviceMessageListener;
 import com.hiperium.home.logger.HiperiumLogger;
@@ -71,15 +71,15 @@ public class MainClass {
 	}
 	
 	/**
-	 * @throws InformationException 
 	 * 
+	 * @throws InformationException 
 	 */
 	public MainClass() throws InformationException {
 		// **************** CLOUD PLATFORM CONNECTION ****************
 		LOGGER.debug("Cloud platform Web Service connection - BEGIN");
 		HomeCredentialDTO credentialsDTO = new HomeCredentialDTO(HOME_ID, PROPERTIES.getProperty("serial"));
 		AuthenticationService authService = AuthenticationService.getInstance();
-		HomeAuthResponseDTO credentialDTO = authService.homeAuthentication(credentialsDTO, "");
+		HomeResponseDTO credentialDTO = authService.homeAuthentication(credentialsDTO, "");
 		PROPERTIES.put(Context.SECURITY_PRINCIPAL, credentialDTO.getParam1());
 		PROPERTIES.put(Context.SECURITY_CREDENTIALS, credentialDTO.getParam2());
 		TOKEN_ID = credentialDTO.getParam3();

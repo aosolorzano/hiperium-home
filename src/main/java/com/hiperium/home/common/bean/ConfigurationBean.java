@@ -10,7 +10,7 @@
  * Copyright 2014 Andres Solorzano. All rights reserved.
  * 
  */
-package com.hiperium.home.common;
+package com.hiperium.home.common.bean;
 
 import java.util.Properties;
 
@@ -21,7 +21,7 @@ import com.hiperium.home.logger.HiperiumLogger;
  * @author Andres Solorzano
  * @version 1.0
  */
-public class Resources {
+public class ConfigurationBean {
 	
 	/** The MESSAGE_SERVICE_HOST property path. */
 	public static final String MESSAGE_SERVICE_HOST = "hiperium.messaging.service.host";
@@ -31,7 +31,7 @@ public class Resources {
 	public static final String CLIENT_DEVICE_QUEUE = "deviceQueue";
 	
 	/** The LOGGER property for logger messages. */
-	private static final HiperiumLogger LOGGER = HiperiumLogger.getLogger(Resources.class);
+	private static final HiperiumLogger LOGGER = HiperiumLogger.getLogger(ConfigurationBean.class);
 	
 	/** The property PROPERTIES. */
     public static final Properties PROPERTIES = new Properties();
@@ -42,7 +42,7 @@ public class Resources {
 	static {
 		// Set up the namingContext for the JNDI lookup
 		try {
-			PROPERTIES.load(Resources.class.getClassLoader().getResourceAsStream("home.properties"));
+			PROPERTIES.load(ConfigurationBean.class.getClassLoader().getResourceAsStream("home.properties"));
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 		}

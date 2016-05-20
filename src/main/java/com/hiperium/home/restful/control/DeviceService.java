@@ -16,11 +16,11 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.hiperium.home.common.Resources;
-import com.hiperium.home.dto.DeviceDTO;
-import com.hiperium.home.exception.InformationException;
-import com.hiperium.home.gson.converter.DeviceConverter;
-import com.hiperium.home.http.HttpClient;
+import com.hiperium.commons.client.dto.DeviceDTO;
+import com.hiperium.commons.client.exception.InformationException;
+import com.hiperium.commons.client.http.HttpClient;
+import com.hiperium.home.common.bean.ConfigurationBean;
+import com.hiperium.home.common.converter.DeviceConverter;
 import com.hiperium.home.logger.HiperiumLogger;
 import com.hiperium.home.restful.RestControlPath;
 
@@ -71,7 +71,7 @@ public final class DeviceService extends HttpClient {
 		LOGGER.debug("findByHomeId - START");
 		String response;
 		try {
-			String URL = Resources.PROPERTIES.getProperty("hiperium.control.service.url").concat(RestControlPath.findDeviceByHomeId());
+			String URL = ConfigurationBean.PROPERTIES.getProperty("hiperium.control.service.url").concat(RestControlPath.findDeviceByHomeId());
 			response = super.getFromService(URL.concat("?homeId=").concat(homeId.toString()), "application/json", token);
 			if(StringUtils.isNotBlank(response)) {
 				List<DeviceDTO> devices = this.converter.fromJsonToDeviceList(response);

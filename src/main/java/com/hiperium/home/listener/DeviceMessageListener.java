@@ -29,9 +29,9 @@ import javax.jms.TopicSession;
 
 import org.hornetq.api.jms.HornetQJMSClient;
 
-import com.hiperium.home.common.Resources;
-import com.hiperium.home.dto.DeviceDTO;
-import com.hiperium.home.gson.converter.DeviceConverter;
+import com.hiperium.commons.client.dto.DeviceDTO;
+import com.hiperium.home.common.bean.ConfigurationBean;
+import com.hiperium.home.common.converter.DeviceConverter;
 import com.hiperium.home.logger.HiperiumLogger;
 import com.hiperium.home.main.MainClass;
 
@@ -75,7 +75,7 @@ public class DeviceMessageListener extends AbstractMessageListener implements Me
 	 */
 	public void start() throws JMSException {
 		this.topicSession = (TopicSession) super.connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-		Topic topic = HornetQJMSClient.createTopic(Resources.CLIENT_DEVICE_TOPIC);
+		Topic topic = HornetQJMSClient.createTopic(ConfigurationBean.CLIENT_DEVICE_TOPIC);
 		MessageConsumer consumer = this.topicSession.createDurableSubscriber(
 				topic,								// JMS Cloud Topic
 				"DeviceMessageListener",			// clientID = clientID + "##" + subName
@@ -120,7 +120,7 @@ public class DeviceMessageListener extends AbstractMessageListener implements Me
 		}
 		try {
 			this.queueSession = (QueueSession) super.connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			Queue queue = HornetQJMSClient.createQueue(Resources.CLIENT_DEVICE_QUEUE);
+			Queue queue = HornetQJMSClient.createQueue(ConfigurationBean.CLIENT_DEVICE_QUEUE);
 			MessageProducer producer = this.queueSession.createProducer(queue);
 			TextMessage message = this.queueSession.createTextMessage(this.jsonConverter.toJSON(deviceDTO));
 			producer.send(message);

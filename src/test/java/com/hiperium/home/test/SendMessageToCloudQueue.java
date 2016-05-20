@@ -32,8 +32,8 @@ import org.hornetq.api.jms.JMSFactoryType;
 import org.hornetq.core.remoting.impl.netty.NettyConnectorFactory;
 import org.hornetq.core.remoting.impl.netty.TransportConstants;
 
-import com.hiperium.home.dto.DeviceDTO;
-import com.hiperium.home.gson.GsonConverterUtil;
+import com.hiperium.commons.client.dto.DeviceDTO;
+import com.hiperium.commons.client.gson.GsonConverterUtil;
 
 
 /**

@@ -77,12 +77,12 @@
 		<repository>
 			<id>hiperium</id>
 			<name>Hiperium Releases</name>
-			<url>http://repository-hiperium.rhcloud.com/content/repositories/hiperium-releases</url>
+			<url>http://repository-hiperium.rhcloud.com/content/repositories/releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>hiperium</id>
 			<name>Hiperium Snapshots</name>
-			<url>http://repository-hiperium.rhcloud.com/content/repositories/hiperium-snapshots</url>
+			<url>http://repository-hiperium.rhcloud.com/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 
@@ -92,6 +92,18 @@
 			<groupId>org.jboss.client</groupId>
 			<artifactId>jboss-client</artifactId>
 			<version>7.1.1.Final</version>
+		</dependency>
+		<!-- Import the Hiperium Common Client Services dependency. -->
+		<dependency>
+			<groupId>com.hiperium</groupId>
+			<artifactId>hiperium-client</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<!-- JAVAX VALIDATION API: Provided by the JEE Container. -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.1.0.Final</version>
 		</dependency>
 		<!-- XBEE API -->
 		<dependency>
@@ -104,29 +116,6 @@
 			<groupId>org.rxtx</groupId>
 			<artifactId>rxtx</artifactId>
 			<version>2.1.7</version>
-		</dependency>
-		<!-- APACHE HTTP CLIENTS -->
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpcore</artifactId>
-			<version>4.4.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.5</version>
-		</dependency>
-		<!-- GSON: To manage JSON objects. -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.1</version>
-		</dependency>
-		<!-- APACHE COMMONS -->
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
 		</dependency>
 		<!-- APACHE LOG4J -->
 		<dependency>

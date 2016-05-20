@@ -17,8 +17,8 @@ import java.util.Map;
 
 import javax.annotation.PreDestroy;
 
+import com.hiperium.commons.client.dto.DeviceDTO;
 import com.hiperium.home.common.EnumDeviceType;
-import com.hiperium.home.dto.DeviceDTO;
 import com.hiperium.home.logger.HiperiumLogger;
 import com.hiperium.home.main.MainClass;
 import com.rapplogic.xbee.api.ApiId;

@@ -14,12 +14,12 @@ package com.hiperium.home.restful.auth;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.hiperium.home.common.Resources;
-import com.hiperium.home.dto.HomeAuthResponseDTO;
-import com.hiperium.home.dto.HomeCredentialDTO;
-import com.hiperium.home.exception.InformationException;
-import com.hiperium.home.gson.converter.AuthenticationConverter;
-import com.hiperium.home.http.HttpClient;
+import com.hiperium.commons.client.dto.HomeCredentialDTO;
+import com.hiperium.commons.client.dto.HomeResponseDTO;
+import com.hiperium.commons.client.exception.InformationException;
+import com.hiperium.commons.client.http.HttpClient;
+import com.hiperium.home.common.bean.ConfigurationBean;
+import com.hiperium.home.common.converter.HomeResponseConverter;
 import com.hiperium.home.logger.HiperiumLogger;
 import com.hiperium.home.restful.RestSecurityPath;
 
@@ -36,7 +36,7 @@ public final class AuthenticationService extends HttpClient {
 	private static final HiperiumLogger LOGGER = HiperiumLogger.getLogger(AuthenticationService.class);
 	
 	/** The property converter. */
-	private AuthenticationConverter converter;
+	private HomeResponseConverter converter;
 	
 	/** The property service. */
 	private static AuthenticationService service = null;
@@ -45,7 +45,7 @@ public final class AuthenticationService extends HttpClient {
 	 * Class constructor.
 	 */
 	private AuthenticationService() {
-		this.converter = new AuthenticationConverter();
+		this.converter = new HomeResponseConverter();
 	}
 	
 	/**
@@ -66,15 +66,15 @@ public final class AuthenticationService extends HttpClient {
 	 * @param token
 	 * @return
 	 */
-	public HomeAuthResponseDTO homeAuthentication(HomeCredentialDTO credentialsDTO, String token) {
+	public HomeResponseDTO homeAuthentication(HomeCredentialDTO credentialsDTO, String token) {
 		LOGGER.debug("homeAuthentication - START");
 		String response;
 		try {
-			response = super.postToService(Resources.PROPERTIES.getProperty("hiperium.security.service.url")
+			response = super.postToService(ConfigurationBean.PROPERTIES.getProperty("hiperium.security.service.url")
 					.concat(RestSecurityPath.homeAuthentication()), this.converter.toJSON(credentialsDTO), 
-							"application/json", "application/json", token);
+							"application/json", token);
 			if(StringUtils.isNotBlank(response)) {
-				HomeAuthResponseDTO obj = this.converter.fromJsonToHomeAuthResponseDTO(response);
+				HomeResponseDTO obj = this.converter.fromJsonToHomeResponseDTO(response);
 				return obj;
 			}
 		} catch (InformationException e) {

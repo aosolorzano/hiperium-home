@@ -10,10 +10,10 @@
  * Copyright 2014 Andres Solorzano. All rights reserved.
  * 
  */
-package com.hiperium.home.gson.converter;
+package com.hiperium.home.common.converter;
 
-import com.hiperium.home.dto.HomeAuthResponseDTO;
-import com.hiperium.home.gson.GsonConverterUtil;
+import com.hiperium.commons.client.dto.HomeResponseDTO;
+import com.hiperium.commons.client.gson.GsonConverterUtil;
 
 /**
  * This is a utility class for serializing or deserializing java objects in a
@@ -21,12 +21,12 @@ import com.hiperium.home.gson.GsonConverterUtil;
  * 
  * @author Andres Solorzano
  */
-public final class AuthenticationConverter extends GsonConverterUtil {
+public final class HomeResponseConverter extends GsonConverterUtil {
 
 	/**
 	 * Default constructor.
 	 */
-	public AuthenticationConverter() {
+	public HomeResponseConverter() {
 		super();
 	}
 	
@@ -35,7 +35,7 @@ public final class AuthenticationConverter extends GsonConverterUtil {
 	 * @param json
 	 * @return
 	 */
-	public HomeAuthResponseDTO fromJsonToHomeAuthResponseDTO(String json) {
-		return super.getGson().fromJson(json, HomeAuthResponseDTO.class);
+	public HomeResponseDTO fromJsonToHomeResponseDTO(String json) {
+		return super.getGson().fromJson(json, HomeResponseDTO.class);
 	}
 }

@@ -10,16 +10,18 @@
  * Copyright 2014 Andres Solorzano. All rights reserved.
  * 
  */
-package com.hiperium.home.gson.converter;
+package com.hiperium.home.common.converter;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import com.hiperium.home.dto.DeviceDTO;
-import com.hiperium.home.gson.GsonConverterUtil;
-import com.hiperium.home.logger.HiperiumLogger;
+import com.hiperium.commons.client.dto.DeviceDTO;
+import com.hiperium.commons.client.gson.GsonConverterUtil;
+import com.hiperium.commons.client.http.HttpClient;
 
 /**
  * This is a utility class for serializing or deserializing java objects in a
@@ -30,7 +32,7 @@ import com.hiperium.home.logger.HiperiumLogger;
 public final class DeviceConverter extends GsonConverterUtil {
 
 	/** The LOGGER property for logger messages. */
-	private static final HiperiumLogger LOGGER = HiperiumLogger.getLogger(DeviceConverter.class);
+	private static final Logger LOGGER = Logger.getLogger(HttpClient.class);
 
 	/**
 	 * Default constructor.

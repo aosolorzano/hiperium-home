@@ -27,7 +27,7 @@ import org.hornetq.api.jms.JMSFactoryType;
 import org.hornetq.core.remoting.impl.netty.NettyConnectorFactory;
 import org.hornetq.core.remoting.impl.netty.TransportConstants;
 
-import com.hiperium.home.common.Resources;
+import com.hiperium.home.common.bean.ConfigurationBean;
 import com.hiperium.home.main.MainClass;
 
 /**
@@ -48,7 +48,7 @@ public abstract class AbstractMessageListener {
 	public AbstractMessageListener(Properties properties) throws JMSException {
 		// Create the JMS objects to connect to the server and manage a session
 		final Map<String, Object> p = new HashMap<String, Object>();
-		p.put(TransportConstants.HOST_PROP_NAME, properties.getProperty(Resources.MESSAGE_SERVICE_HOST));
+		p.put(TransportConstants.HOST_PROP_NAME, properties.getProperty(ConfigurationBean.MESSAGE_SERVICE_HOST));
 		TransportConfiguration transportConfiguration = new TransportConfiguration(NettyConnectorFactory.class.getName(), p);
 		ConnectionFactory factory = (ConnectionFactory) HornetQJMSClient.createConnectionFactoryWithoutHA(JMSFactoryType.CF, transportConfiguration);
         this.connection = factory.createConnection(properties.getProperty(Context.SECURITY_PRINCIPAL),
