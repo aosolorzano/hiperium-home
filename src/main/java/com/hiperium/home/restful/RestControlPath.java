@@ -29,7 +29,6 @@ public final class RestControlPath extends RestServicePath {
 	 * @return the device by zone identifier path.
 	 */
 	public static String findDeviceByHomeId() {
-		return RestServicePath.CONTROL_CONTEXT_ROOT.concat(RestServicePath.APPLICATION_PATH)
-				.concat(RestServicePath.DEVICES).concat(FIND_DEVICE_BY_HOME_ID);
+		return RestServicePath.CONTROL_CONTEXT_ROOT.concat(RestServicePath.CONTROL_APPLICATION_PATH).concat(RestServicePath.GATEWAY).concat(FIND_DEVICE_BY_HOME_ID);
 	}
 }

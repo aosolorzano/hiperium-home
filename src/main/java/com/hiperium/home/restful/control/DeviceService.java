@@ -19,8 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import com.hiperium.commons.client.dto.DeviceDTO;
 import com.hiperium.commons.client.exception.InformationException;
 import com.hiperium.commons.client.http.HttpClient;
-import com.hiperium.home.common.bean.ConfigurationBean;
-import com.hiperium.home.common.converter.DeviceConverter;
+import com.hiperium.home.bean.ConfigurationBean;
+import com.hiperium.home.converter.DeviceConverter;
 import com.hiperium.home.logger.HiperiumLogger;
 import com.hiperium.home.restful.RestControlPath;
 
@@ -66,8 +66,9 @@ public final class DeviceService extends HttpClient {
 	 * @param homeId
 	 * @param token
 	 * @return
+	 * @throws InformationException
 	 */
-	public List<DeviceDTO> findByHomeId(Long homeId, String token) {
+	public List<DeviceDTO> findByHomeId(Long homeId, String token) throws InformationException {
 		LOGGER.debug("findByHomeId - START");
 		String response;
 		try {
@@ -78,7 +79,7 @@ public final class DeviceService extends HttpClient {
 				return devices;
 			}
 		} catch (InformationException e) {
-			LOGGER.error(e.getMessage(), e);
+			throw e;
 		}
 		return null;
 	}

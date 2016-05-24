@@ -19,14 +19,9 @@ package com.hiperium.home.restful;
 public class RestServicePath {
 
 	/**
-	 * The property APPLICATION_PATH with path /web/service/rest.
+	 * The property IDENTITY_CONTEXT_ROOT with path /hiperium-identity.
 	 */
-	public static final String APPLICATION_PATH = "/web/service/rest";
-	
-	/**
-	 * The property SECURITY_CONTEXT_ROOT with path /hiperium-security.
-	 */
-	public static final String SECURITY_CONTEXT_ROOT = "/hiperium-security";
+	public static final String IDENTITY_CONTEXT_ROOT = "/hiperium-identity";
 	
 	/**
 	 * The property SECURITY_CONTEXT_ROOT with path /hiperium-security.
@@ -40,9 +35,14 @@ public class RestServicePath {
 	// ***************************************************************** //
 	// ***************************************************************** //
 	/**
-	 * The property AUTHENTICATION with REST path /security/authentication.
+	 * The property APPLICATION_PATH with path /api/identity.
 	 */
-	public static final String AUTHENTICATION = "/security/authentication";
+	public static final String IDENTITY_APPLICATION_PATH = "/api/identity";
+	
+	/**
+	 * The property AUTHENTICATION with REST path /authentication.
+	 */
+	public static final String AUTHENTICATION = "/authentication";
 	
 	
 	// ***************************************************************** //
@@ -51,8 +51,13 @@ public class RestServicePath {
 	// ***************************************************************** //
 	// ***************************************************************** //
 	/**
-	 * The property DEVICES with REST path /control/device.
+	 * The property APPLICATION_PATH with path /api/identity.
 	 */
-	public static final String DEVICES = "/control/device";
+	public static final String CONTROL_APPLICATION_PATH = "/api/control";
+	
+	/**
+	 * The property GATEWAY with REST path /gateway.
+	 */
+	public static final String GATEWAY = "/gateway";
 	
 }

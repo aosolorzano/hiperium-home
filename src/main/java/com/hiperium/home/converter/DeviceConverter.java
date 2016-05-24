@@ -10,7 +10,7 @@
  * Copyright 2014 Andres Solorzano. All rights reserved.
  * 
  */
-package com.hiperium.home.common.converter;
+package com.hiperium.home.converter;
 
 import java.lang.reflect.Type;
 import java.util.List;

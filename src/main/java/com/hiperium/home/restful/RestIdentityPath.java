@@ -18,7 +18,7 @@ package com.hiperium.home.restful;
  * @author Andres Solorzano
  *
  */
-public final class RestSecurityPath extends RestServicePath {
+public final class RestIdentityPath extends RestServicePath {
 
 	/** The HOME_AUTH property path. */
 	public static final String HOME_AUTH = "/homeAuthentication";
@@ -28,8 +28,7 @@ public final class RestSecurityPath extends RestServicePath {
 	 * @return
 	 */
 	public static String homeAuthentication() {
-		return RestServicePath.SECURITY_CONTEXT_ROOT.concat(RestServicePath.APPLICATION_PATH)
-				.concat(RestServicePath.AUTHENTICATION).concat(HOME_AUTH);
+		return RestServicePath.IDENTITY_CONTEXT_ROOT.concat(RestServicePath.IDENTITY_APPLICATION_PATH).concat(RestServicePath.AUTHENTICATION).concat(HOME_AUTH);
 	}
 	
 }

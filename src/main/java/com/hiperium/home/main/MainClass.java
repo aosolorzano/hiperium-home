@@ -12,26 +12,21 @@
  */
 package com.hiperium.home.main;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-
-import javax.jms.JMSException;
-import javax.naming.Context;
 
 import com.hiperium.commons.client.dto.DeviceDTO;
 import com.hiperium.commons.client.dto.HomeCredentialDTO;
-import com.hiperium.commons.client.dto.HomeResponseDTO;
 import com.hiperium.commons.client.exception.InformationException;
-import com.hiperium.commons.client.gson.GsonConverterUtil;
+import com.hiperium.home.bean.ConfigurationBean;
 import com.hiperium.home.common.EnumDeviceClass;
-import com.hiperium.home.listener.DeviceDataListener;
 import com.hiperium.home.listener.DeviceMessageListener;
 import com.hiperium.home.logger.HiperiumLogger;
 import com.hiperium.home.restful.auth.AuthenticationService;
 import com.hiperium.home.restful.control.DeviceService;
-import com.rapplogic.xbee.api.XBeeException;
+import com.hiperium.home.websocket.WebSocketClient;
 
 /**
  * @author Andres Solorzano
@@ -42,106 +37,13 @@ public class MainClass {
 	/** The LOGGER property for logger messages. */
 	private static final HiperiumLogger LOGGER = HiperiumLogger.getLogger(MainClass.class);
 	
-	/** The GSON_CONVERTER_UTIL object for JSON conversion. */
-	public static final GsonConverterUtil GSON_CONVERTER_UTIL = new GsonConverterUtil();
-	
-	/** The property DEFAULT_CONNECTION_FACTORY. */
-    public static final String DEFAULT_CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
-   
-    /** The property PROPERTIES. */
-    public static final Properties PROPERTIES = new Properties();
-
-	/** The HOME_ID property. */
-	public static Long HOME_ID = null;
-	/** The TOKEN_ID property for messages. */
-	public static String TOKEN_ID = null;
-	
-	/**
-	 * Class initialization
-	 */
-	static {
-		// Set up the namingContext for the JNDI lookup
-		try {
-			PROPERTIES.load(MainClass.class.getClassLoader().getResourceAsStream("home.properties"));
-			String home = PROPERTIES.getProperty("homeId");
-			HOME_ID = Long.valueOf(home);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-		}
-	}
-	
-	/**
-	 * 
-	 * @throws InformationException 
-	 */
-	public MainClass() throws InformationException {
-		// **************** CLOUD PLATFORM CONNECTION ****************
-		LOGGER.debug("Cloud platform Web Service connection - BEGIN");
-		HomeCredentialDTO credentialsDTO = new HomeCredentialDTO(HOME_ID, PROPERTIES.getProperty("serial"));
-		AuthenticationService authService = AuthenticationService.getInstance();
-		HomeResponseDTO credentialDTO = authService.homeAuthentication(credentialsDTO, "");
-		PROPERTIES.put(Context.SECURITY_PRINCIPAL, credentialDTO.getParam1());
-		PROPERTIES.put(Context.SECURITY_CREDENTIALS, credentialDTO.getParam2());
-		TOKEN_ID = credentialDTO.getParam3();
-		LOGGER.debug("Cloud platform Web Service connection - END");
-		
-		// **************** FIND DEVICES BY HOME ID AND STORE THEM LOCALLY ****************
-		LOGGER.debug("Getting home devices form Cloud - BEGIN");
-		DeviceService deviceService = DeviceService.getInstance();
-		List<DeviceDTO> devices = deviceService.findByHomeId(HOME_ID, TOKEN_ID);
-		Map<Long, DeviceDTO> deviceMap = new HashMap<Long, DeviceDTO>();
-		if(devices == null || devices.isEmpty()) {
-			throw new InformationException("DID NOT FOUND ANY DEVICE FOR THIS HOME.");
-		} else {
-			for(DeviceDTO dto : devices) {
-				deviceMap.put(dto.getId(), dto);
-			}
-		}
-		LOGGER.debug("Getting home devices form Cloud - END");
-		
-		// **************** DEVICE CLOUD CONNECTION ****************
-		LOGGER.debug("Cloud device JMS connection - BEGIN");
-		DeviceMessageListener deviceMessageListener = null;
-		try {
-			deviceMessageListener = new DeviceMessageListener(PROPERTIES);
-			deviceMessageListener.start();
-		} catch (JMSException e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new InformationException(e.getMessage());
-		}
-		LOGGER.debug("Cloud device JMS connection - END");
-				
-		// **************** DEVICE XBEE CONNECTION ****************
-		LOGGER.debug("Device XBee Coordinator connection - BEGIN");
-		DeviceDataListener dataListener = null;
-		try {
-			dataListener = new DeviceDataListener();
-			dataListener.setMessageListener(deviceMessageListener);
-			dataListener.setDeviceMap(deviceMap);
-			dataListener.start();
-			deviceMessageListener.setDataListener(dataListener);
-		} catch (XBeeException e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new InformationException(e.getMessage());
-		}
-		LOGGER.debug("Device XBee Coordinator connection - END");
-		
-		// INITIALIZES ACTUATOR DEVICES TO THE ACTUAL STATUS
-		EnumDeviceClass deviceClass = null;
-		for(DeviceDTO dto : devices) {
-			deviceClass = EnumDeviceClass.decodeByEnumName(dto.getDevClass());
-			if(EnumDeviceClass.ACTUATOR.equals(deviceClass)) {
-				dataListener.sendValueToXBee(dto);
-			}
-		}
-	}
-	
-	/**
+    /**
 	 * @param args
 	 */
 	public static void main(String[] args) throws InformationException {
-		LOGGER.info("Home Identifier: " + HOME_ID);
+		LOGGER.info("Home Identifier: " + ConfigurationBean.getHomeId());
 		MainClass mainClass = new MainClass();
+		mainClass.init();
 		synchronized (mainClass) {
 			try {
 				mainClass.wait();
@@ -150,4 +52,58 @@ public class MainClass {
 			}
 		}
 	}
+	
+	/**
+	 * 
+	 * @throws InformationException
+	 */
+	private void init() throws InformationException {
+		// **************** CLOUD PLATFORM AUTHENTICATION ****************
+		LOGGER.debug("Cloud platform Web Service Authentication - BEGIN");
+		HomeCredentialDTO credentialsDTO = new HomeCredentialDTO(ConfigurationBean.getHomeId(), ConfigurationBean.getSerial());
+		AuthenticationService authService = AuthenticationService.getInstance();
+		ConfigurationBean.setTokenId(authService.homeAuthentication(credentialsDTO));
+		LOGGER.debug("Cloud platform Web Service Authentication - END");
+		
+		// **************** FIND DEVICES BY HOME ID AND STORE THEM LOCALLY ****************
+		LOGGER.debug("Getting home devices form Cloud - BEGIN");
+		DeviceService deviceService = DeviceService.getInstance();
+		List<DeviceDTO> devices = deviceService.findByHomeId(ConfigurationBean.getHomeId(), ConfigurationBean.getTokenId());
+		if(devices == null || devices.isEmpty()) {
+			throw new InformationException("NOT FOUND DEVICES FOR THIS HOME.");
+		}
+		Map<Long, DeviceDTO> deviceMap = new HashMap<Long, DeviceDTO>();
+		for(DeviceDTO dto : devices) {
+			deviceMap.put(dto.getId(), dto);
+		}
+		LOGGER.debug("Getting home devices form Cloud - END");
+		
+		// **************** DEVICE LISTENER CONFIGURATION ****************
+		LOGGER.debug("Device Listener Configuration - BEGIN");
+		DeviceMessageListener deviceMessageListener = new DeviceMessageListener();
+		deviceMessageListener.setDeviceMap(deviceMap);
+		try {
+			WebSocketClient deviceEndPoint = new WebSocketClient(new URI(ConfigurationBean.getWebSocketURI() + ConfigurationBean.getHomeId()));
+			deviceEndPoint.addMessageHandler(new WebSocketClient.MessageHandler() {
+				public void handleMessage(String message) {
+					deviceMessageListener.onMessage(message);
+				}
+			});
+			deviceMessageListener.setSocketClient(deviceEndPoint);
+			deviceMessageListener.startXbeePackageListener();
+		} catch (Exception e) {
+			throw new InformationException(e.getMessage());
+		}
+		LOGGER.debug("Device Listener Configuration - END");
+				
+		// INITIALIZES ACTUATOR DEVICES TO STATUS OBTAINED FORM CLOUD PLATFORM 
+		EnumDeviceClass deviceClass = null;
+		for(DeviceDTO dto : devices) {
+			deviceClass = EnumDeviceClass.decodeByEnumName(dto.getDevClass());
+			if(EnumDeviceClass.ACTUATOR.equals(deviceClass)) {
+				deviceMessageListener.sendMessageToDevice(dto);
+			}
+		}
+	}
+	
 }
