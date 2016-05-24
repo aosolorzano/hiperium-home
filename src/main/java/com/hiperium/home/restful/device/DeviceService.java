@@ -10,7 +10,7 @@
  * Copyright 2014 Andres Solorzano. All rights reserved.
  * 
  */
-package com.hiperium.home.restful.control;
+package com.hiperium.home.restful.device;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import com.hiperium.commons.client.http.HttpClient;
 import com.hiperium.home.bean.ConfigurationBean;
 import com.hiperium.home.converter.DeviceConverter;
 import com.hiperium.home.logger.HiperiumLogger;
-import com.hiperium.home.restful.RestControlPath;
+import com.hiperium.home.restful.RestDevicePath;
 
 /**
  * This service class send calls to the REST Service to operate with different
@@ -72,7 +72,7 @@ public final class DeviceService extends HttpClient {
 		LOGGER.debug("findByHomeId - START");
 		String response;
 		try {
-			String URL = ConfigurationBean.PROPERTIES.getProperty("hiperium.control.service.url").concat(RestControlPath.findDeviceByHomeId());
+			String URL = ConfigurationBean.PROPERTIES.getProperty("hiperium.device.service.url").concat(RestDevicePath.findDeviceByHomeId());
 			response = super.getFromService(URL.concat("?homeId=").concat(homeId.toString()), "application/json", token);
 			if(StringUtils.isNotBlank(response)) {
 				List<DeviceDTO> devices = this.converter.fromJsonToDeviceList(response);

@@ -30,8 +30,8 @@ public class ConfigurationBean {
 	public static final String MESSAGE_SERVICE_URI = "hiperium.messaging.service.uri";
 	/** The IDENTITY_SERVICE_URL property path. */
 	public static final String IDENTITY_SERVICE_URL = "hiperium.identity.service.url";
-	/** The CONTROL_SERVICE_URL property path. */
-	public static final String CONTROL_SERVICE_URL = "hiperium.control.service.url";
+	/** The DEVICE_SERVICE_URL property path. */
+	public static final String DEVICE_SERVICE_URL = "hiperium.device.service.url";
 	
 	/** The property PROPERTIES. */
     public static final Properties PROPERTIES = new Properties();
@@ -49,7 +49,7 @@ public class ConfigurationBean {
 	static {
 		// Set up the namingContext for the JNDI lookup
 		try {
-			PROPERTIES.load(ConfigurationBean.class.getClassLoader().getResourceAsStream("home.properties"));
+			PROPERTIES.load(ConfigurationBean.class.getClassLoader().getResourceAsStream("common.properties"));
 			String home = PROPERTIES.getProperty("homeId");
 			homeId = Long.valueOf(home);
 			serial = PROPERTIES.getProperty("serial");

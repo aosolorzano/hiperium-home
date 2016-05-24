@@ -18,7 +18,7 @@ package com.hiperium.home.restful;
  * @author Andres Solorzano
  *
  */
-public final class RestControlPath extends RestServicePath {
+public final class RestDevicePath extends RestServicePath {
 
 	/** The FIND_DEVICE_BY_HOME_ID property path. */
 	public static final String FIND_DEVICE_BY_HOME_ID = "/findByHomeId";
@@ -29,6 +29,6 @@ public final class RestControlPath extends RestServicePath {
 	 * @return the device by zone identifier path.
 	 */
 	public static String findDeviceByHomeId() {
-		return RestServicePath.CONTROL_CONTEXT_ROOT.concat(RestServicePath.CONTROL_APPLICATION_PATH).concat(RestServicePath.GATEWAY).concat(FIND_DEVICE_BY_HOME_ID);
+		return RestServicePath.DEVICE_CONTEXT_ROOT.concat(RestServicePath.DEVICE_APPLICATION_PATH).concat(RestServicePath.GATEWAY).concat(FIND_DEVICE_BY_HOME_ID);
 	}
 }

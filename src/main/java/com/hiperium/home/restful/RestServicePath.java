@@ -24,9 +24,9 @@ public class RestServicePath {
 	public static final String IDENTITY_CONTEXT_ROOT = "/hiperium-identity";
 	
 	/**
-	 * The property SECURITY_CONTEXT_ROOT with path /hiperium-security.
+	 * The property DEVICE_CONTEXT_ROOT with path /hiperium-device.
 	 */
-	public static final String CONTROL_CONTEXT_ROOT = "/hiperium-control";
+	public static final String DEVICE_CONTEXT_ROOT = "/hiperium-device";
 
 	
 	// ***************************************************************** //
@@ -51,9 +51,9 @@ public class RestServicePath {
 	// ***************************************************************** //
 	// ***************************************************************** //
 	/**
-	 * The property APPLICATION_PATH with path /api/identity.
+	 * The property APPLICATION_PATH with path /api/device.
 	 */
-	public static final String CONTROL_APPLICATION_PATH = "/api/control";
+	public static final String DEVICE_APPLICATION_PATH = "/api/device";
 	
 	/**
 	 * The property GATEWAY with REST path /gateway.

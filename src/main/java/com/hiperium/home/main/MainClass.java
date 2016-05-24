@@ -25,7 +25,7 @@ import com.hiperium.home.common.EnumDeviceClass;
 import com.hiperium.home.listener.DeviceMessageListener;
 import com.hiperium.home.logger.HiperiumLogger;
 import com.hiperium.home.restful.auth.AuthenticationService;
-import com.hiperium.home.restful.control.DeviceService;
+import com.hiperium.home.restful.device.DeviceService;
 import com.hiperium.home.websocket.WebSocketClient;
 
 /**
