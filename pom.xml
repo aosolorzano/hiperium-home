@@ -72,22 +72,22 @@
 		</pluginRepository>
 	</pluginRepositories>
 
-	<!-- Deploy the project in the follow Nexus Private Repository. -->
+	<!-- Deploy the project in the follow Nexus Public Repository. -->
 	<distributionManagement>
 		<repository>
 			<id>hiperium</id>
-			<name>Hiperium Releases</name>
-			<url>http://repository-hiperium.rhcloud.com/content/repositories/releases</url>
+			<name>Hiperium Project Releases</name>
+			<url>http://repository-hiperium.rhcloud.com/content/repositories/releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>hiperium</id>
-			<name>Hiperium Snapshots</name>
-			<url>http://repository-hiperium.rhcloud.com/content/repositories/snapshots</url>
+			<name>Hiperium Project Snapshots</name>
+			<url>http://repository-hiperium.rhcloud.com/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
 	<dependencies>
-		<!-- Import the Hiperium Common Client Services dependency. -->
+		<!-- Import the Hiperium Client Services dependency. -->
 		<dependency>
 			<groupId>com.hiperium</groupId>
 			<artifactId>hiperium-client</artifactId>
